@@ -167,8 +167,76 @@ canvas{width:100%;height:clamp(190px,25vw,235px);display:block}
   .footer{display:none}
 }
 </style>
+<style>
+body.fit-screen{
+  width:100vw;height:100vh;overflow:hidden;display:block;
+}
+body.fit-screen:before{background-size:30px 30px}
+body.fit-screen .shell{
+  width:829px;height:486px;min-height:0;padding:6px;margin:0;
+  display:grid;grid-template-rows:auto 1fr;gap:6px;overflow:hidden;
+  position:fixed;left:var(--fit-left,0px);top:var(--fit-top,0px);
+  transform:scale(var(--fit-scale,1));transform-origin:top left;
+}
+body.fit-screen .topbar{
+  flex-direction:row;align-items:center;gap:8px;border-radius:12px;
+  padding:6px 8px 6px 11px;margin:0;box-shadow:0 8px 22px rgba(43,39,28,.07);
+}
+body.fit-screen .topbar:before{width:4px}
+body.fit-screen .brand{width:auto;flex:0 0 auto;gap:8px;justify-content:flex-start}
+body.fit-screen .logo-wrap{border-radius:8px;padding:3px 8px}
+body.fit-screen .logo{width:175px;max-height:38px}
+body.fit-screen .brand-copy{display:none}
+body.fit-screen .controls{
+  display:grid;grid-template-columns:auto minmax(120px,1fr) minmax(130px,1fr) auto;
+  gap:6px;align-items:center;width:auto;min-width:0;flex:1 1 auto;
+}
+body.fit-screen .chip,
+body.fit-screen .controls select,
+body.fit-screen .controls button{
+  width:100%;min-height:28px;border-radius:8px;padding:5px 7px;font-size:10px;
+}
+body.fit-screen .chip{grid-column:auto;justify-content:center;white-space:nowrap}
+body.fit-screen .grid{
+  height:100%;min-height:0;gap:6px;grid-template-rows:54px minmax(0,1fr) minmax(0,1fr);align-content:stretch;
+}
+body.fit-screen .card{border-radius:10px;box-shadow:0 8px 20px rgba(43,39,28,.055)}
+body.fit-screen .card:before{height:2px}
+body.fit-screen .card:after{display:none}
+body.fit-screen .kpi{grid-column:span 3;min-height:0;padding:6px 9px;animation:none}
+body.fit-screen .klabel{font-size:7px;line-height:1;letter-spacing:.06em}
+body.fit-screen .kvalue{font-size:16px;margin:4px 0 2px;line-height:1}
+body.fit-screen .kdelta{font-size:7px;line-height:1;white-space:nowrap}
+body.fit-screen .badge{right:8px;top:7px;font-size:7px;padding:3px 5px}
+body.fit-screen .big{grid-column:span 7;min-height:0}
+body.fit-screen .side{grid-column:span 5;min-height:0}
+body.fit-screen .half{grid-column:span 6;min-height:0}
+body.fit-screen .chart{height:100%;min-height:0;padding:8px 10px;display:flex;flex-direction:column}
+body.fit-screen .chart h3{font-size:11px;margin:0 0 3px;line-height:1.1}
+body.fit-screen .chart p{display:none}
+body.fit-screen canvas{height:auto;min-height:0;flex:1 1 auto}
+body.fit-screen .legend{gap:10px;margin-top:3px;font-size:9px}
+body.fit-screen .legend span:before{width:7px;height:7px;margin-right:4px}
+body.fit-screen .gaugeRow{grid-template-columns:92px minmax(0,1fr);gap:8px;min-height:0;height:100%}
+body.fit-screen .ring{width:88px}
+body.fit-screen .ring b{font-size:19px}
+body.fit-screen .ring small{font-size:8px}
+body.fit-screen .statlist{gap:5px}
+body.fit-screen .stat{border-radius:8px;padding:5px 7px}
+body.fit-screen .stathead{font-size:9px}
+body.fit-screen .bar{height:4px;margin-top:4px}
+body.fit-screen .donutWrap{height:100%;min-height:0;gap:10px}
+body.fit-screen .donut{width:88px}
+body.fit-screen .donut:after{inset:21px}
+body.fit-screen .donutText{font-size:14px}
+body.fit-screen .donutText small{font-size:8px}
+body.fit-screen .mix{gap:5px;font-size:9px}
+body.fit-screen .mix div{gap:6px;line-height:1.2}
+body.fit-screen .sw{width:8px;height:8px;flex:0 0 auto}
+body.fit-screen .footer{display:none}
+</style>
 </head>
-<body>
+<body class="fit-screen">
 <div class="shell">
 <header class="topbar">
   <div class="brand">
@@ -229,6 +297,12 @@ canvas{width:100%;height:clamp(190px,25vw,235px);display:block}
 <script>
 const DATA = [{"month": "Jan", "clients": 200, "screens": 1403, "impressions": 3419711, "campaigns": 240, "sga": 94570, "wait": 9.11, "sla": 91.2, "online": 96.3, "tickets": 946, "nps": 63.3, "mrr": 253166}, {"month": "Fev", "clients": 202, "screens": 1426, "impressions": 3586288, "campaigns": 266, "sga": 91715, "wait": 8.93, "sla": 92.2, "online": 96.6, "tickets": 839, "nps": 65.4, "mrr": 256956}, {"month": "Mar", "clients": 203, "screens": 1446, "impressions": 4490145, "campaigns": 302, "sga": 107973, "wait": 8.4, "sla": 92.9, "online": 97.1, "tickets": 901, "nps": 65.4, "mrr": 263572}, {"month": "Abr", "clients": 203, "screens": 1446, "impressions": 4869142, "campaigns": 335, "sga": 109681, "wait": 8.14, "sla": 93.7, "online": 97.4, "tickets": 816, "nps": 67.5, "mrr": 263572}, {"month": "Mai", "clients": 205, "screens": 1460, "impressions": 5536918, "campaigns": 379, "sga": 117607, "wait": 7.84, "sla": 94.2, "online": 97.9, "tickets": 778, "nps": 69.2, "mrr": 270093}, {"month": "Jun", "clients": 206, "screens": 1465, "impressions": 5872257, "campaigns": 407, "sga": 121013, "wait": 7.31, "sla": 95.2, "online": 98.0, "tickets": 716, "nps": 70.4, "mrr": 273582}, {"month": "Jul", "clients": 206, "screens": 1465, "impressions": 6623795, "campaigns": 445, "sga": 134590, "wait": 6.97, "sla": 96.0, "online": 98.5, "tickets": 753, "nps": 71.9, "mrr": 273582}, {"month": "Ago", "clients": 206, "screens": 1465, "impressions": 4678187, "campaigns": 465, "sga": 92979, "wait": 6.73, "sla": 96.4, "online": 98.7, "tickets": 474, "nps": 73.1, "mrr": 273582}];
 let idx = DATA.length-1, playing = true, timer;
+function fitDashboard(){
+  const scale = Math.min(innerWidth / 829, innerHeight / 486);
+  document.documentElement.style.setProperty('--fit-scale', scale.toFixed(4));
+  document.documentElement.style.setProperty('--fit-left', `${Math.max(0,(innerWidth - 829 * scale) / 2).toFixed(2)}px`);
+  document.documentElement.style.setProperty('--fit-top', `${Math.max(0,(innerHeight - 486 * scale) / 2).toFixed(2)}px`);
+}
 const money = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v);
 const num = v => new Intl.NumberFormat('pt-BR').format(Math.round(v));
 function tween(el,target,fmt,dur=700){
@@ -285,7 +359,7 @@ document.querySelector('#period').addEventListener('change',drawAll);
 document.querySelector('#product').addEventListener('change',()=>{document.querySelector('.logo-wrap').animate([{transform:'scale(.98)',opacity:.75},{transform:'scale(1)',opacity:1}],{duration:350})});
 document.querySelector('#play').addEventListener('click',e=>{playing=!playing;e.target.textContent=playing?'⏸ Pausar animação':'▶ Retomar animação';schedule()});
 function schedule(){clearInterval(timer);if(playing)timer=setInterval(()=>update((idx+1)%DATA.length),2600)}
-addEventListener('resize',drawAll);
-update(DATA.length-1);schedule();
+addEventListener('resize',()=>{fitDashboard();requestAnimationFrame(drawAll)});
+fitDashboard();update(DATA.length-1);schedule();
 </script>
 </body></html>
