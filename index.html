@@ -298,10 +298,15 @@ body.fit-screen .footer{display:none}
 const DATA = [{"month": "Jan", "clients": 200, "screens": 1403, "impressions": 3419711, "campaigns": 240, "sga": 94570, "wait": 9.11, "sla": 91.2, "online": 96.3, "tickets": 946, "nps": 63.3, "mrr": 253166}, {"month": "Fev", "clients": 202, "screens": 1426, "impressions": 3586288, "campaigns": 266, "sga": 91715, "wait": 8.93, "sla": 92.2, "online": 96.6, "tickets": 839, "nps": 65.4, "mrr": 256956}, {"month": "Mar", "clients": 203, "screens": 1446, "impressions": 4490145, "campaigns": 302, "sga": 107973, "wait": 8.4, "sla": 92.9, "online": 97.1, "tickets": 901, "nps": 65.4, "mrr": 263572}, {"month": "Abr", "clients": 203, "screens": 1446, "impressions": 4869142, "campaigns": 335, "sga": 109681, "wait": 8.14, "sla": 93.7, "online": 97.4, "tickets": 816, "nps": 67.5, "mrr": 263572}, {"month": "Mai", "clients": 205, "screens": 1460, "impressions": 5536918, "campaigns": 379, "sga": 117607, "wait": 7.84, "sla": 94.2, "online": 97.9, "tickets": 778, "nps": 69.2, "mrr": 270093}, {"month": "Jun", "clients": 206, "screens": 1465, "impressions": 5872257, "campaigns": 407, "sga": 121013, "wait": 7.31, "sla": 95.2, "online": 98.0, "tickets": 716, "nps": 70.4, "mrr": 273582}, {"month": "Jul", "clients": 206, "screens": 1465, "impressions": 6623795, "campaigns": 445, "sga": 134590, "wait": 6.97, "sla": 96.0, "online": 98.5, "tickets": 753, "nps": 71.9, "mrr": 273582}, {"month": "Ago", "clients": 206, "screens": 1465, "impressions": 4678187, "campaigns": 465, "sga": 92979, "wait": 6.73, "sla": 96.4, "online": 98.7, "tickets": 474, "nps": 73.1, "mrr": 273582}];
 let idx = DATA.length-1, playing = true, timer;
 function fitDashboard(){
-  const scale = Math.min(innerWidth / 829, innerHeight / 486);
+  const viewport = window.visualViewport;
+  const width = viewport?.width || innerWidth;
+  const height = viewport?.height || innerHeight;
+  const offsetLeft = viewport?.offsetLeft || 0;
+  const offsetTop = viewport?.offsetTop || 0;
+  const scale = Math.min(width / 829, height / 486);
   document.documentElement.style.setProperty('--fit-scale', scale.toFixed(4));
-  document.documentElement.style.setProperty('--fit-left', `${Math.max(0,(innerWidth - 829 * scale) / 2).toFixed(2)}px`);
-  document.documentElement.style.setProperty('--fit-top', `${Math.max(0,(innerHeight - 486 * scale) / 2).toFixed(2)}px`);
+  document.documentElement.style.setProperty('--fit-left', `${(offsetLeft + Math.max(0,(width - 829 * scale) / 2)).toFixed(2)}px`);
+  document.documentElement.style.setProperty('--fit-top', `${(offsetTop + Math.max(0,(height - 486 * scale) / 2)).toFixed(2)}px`);
 }
 const money = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v);
 const num = v => new Intl.NumberFormat('pt-BR').format(Math.round(v));
@@ -359,7 +364,10 @@ document.querySelector('#period').addEventListener('change',drawAll);
 document.querySelector('#product').addEventListener('change',()=>{document.querySelector('.logo-wrap').animate([{transform:'scale(.98)',opacity:.75},{transform:'scale(1)',opacity:1}],{duration:350})});
 document.querySelector('#play').addEventListener('click',e=>{playing=!playing;e.target.textContent=playing?'⏸ Pausar animação':'▶ Retomar animação';schedule()});
 function schedule(){clearInterval(timer);if(playing)timer=setInterval(()=>update((idx+1)%DATA.length),2600)}
-addEventListener('resize',()=>{fitDashboard();requestAnimationFrame(drawAll)});
+function refit(){fitDashboard();requestAnimationFrame(drawAll)}
+addEventListener('resize',refit);
+visualViewport?.addEventListener('resize',refit);
+visualViewport?.addEventListener('scroll',refit);
 fitDashboard();update(DATA.length-1);schedule();
 </script>
 </body></html>
